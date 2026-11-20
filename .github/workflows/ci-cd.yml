@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   validate-and-build-backend:
     name: Validar y Compilar Backend (Spring Boot)
@@ -53,10 +56,13 @@ jobs:
         run: npm run build -- --configuration production
 
   docker-build-and-deploy:
-    name: Construir Imágenes Docker y Preparar Despliegue
+    name: Construir y Publicar Imágenes en GHCR (ghcr.io)
     needs: [validate-and-build-backend, validate-and-build-frontend]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout del código
@@ -65,15 +71,27 @@ jobs:
       - name: Configurar Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Construir imagen Docker del Backend (service-billing)
-        run: docker build -t enterprise/service-billing:${{ github.sha }} -t enterprise/service-billing:latest ./backend/service-billing
+      - name: Iniciar sesión automáticamente en GitHub Container Registry (ghcr.io)
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Construir imagen Docker del Frontend (Angular + Nginx)
-        run: docker build -t enterprise/frontend:${{ github.sha }} -t enterprise/frontend:latest ./frontend
-
-      - name: Preparar artefactos para despliegue
+      - name: Construir y publicar imagen Docker del Backend (service-billing)
         run: |
-          echo "Imágenes construidas exitosamente para el commit ${{ github.sha }}:"
-          docker images | grep enterprise
-          echo "Listo para despliegue en entorno de producción."
+          IMAGE_BACKEND=$(echo "${{ env.REGISTRY }}/${{ github.repository_owner }}/service-billing" | tr '[:upper:]' '[:lower:]')
+          docker build -t $IMAGE_BACKEND:${{ github.sha }} -t $IMAGE_BACKEND:latest ./backend/service-billing
+          docker push $IMAGE_BACKEND:${{ github.sha }}
+          docker push $IMAGE_BACKEND:latest
 
+      - name: Construir y publicar imagen Docker del Frontend (Angular + Nginx)
+        run: |
+          IMAGE_FRONTEND=$(echo "${{ env.REGISTRY }}/${{ github.repository_owner }}/frontend" | tr '[:upper:]' '[:lower:]')
+          docker build -t $IMAGE_FRONTEND:${{ github.sha }} -t $IMAGE_FRONTEND:latest ./frontend
+          docker push $IMAGE_FRONTEND:${{ github.sha }}
+          docker push $IMAGE_FRONTEND:latest
+
+      - name: Resumen de despliegue
+        run: |
+          echo "Imágenes publicadas exitosamente en ghcr.io/${{ github.repository_owner }} para el commit ${{ github.sha }}."
