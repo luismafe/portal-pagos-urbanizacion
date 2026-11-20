@@ -7,7 +7,7 @@ import { Factura } from '../models/factura.model';
     providedIn: 'root'
 })
 export class FacturaService {
-    private apiUrl = 'http://localhost:8081/api/facturas';
+    private apiUrl = `http://${typeof window !== 'undefined' && window.location.hostname ? window.location.hostname : 'localhost'}:8081/api/facturas`;
 
     constructor(private http: HttpClient) { }
 
