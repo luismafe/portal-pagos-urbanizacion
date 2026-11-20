@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secretpassword}
+      POSTGRES_DB: ${POSTGRES_DB:-urbanizacion_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_broker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+
+  service-billing:
+    image: ghcr.io/luismafe/urbanizacion-service-billing:latest
+    container_name: service_billing_app
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-urbanizacion_db}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-admin}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-secretpassword}
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+    ports:
+      - "8081:8081"
+    restart: always
+
+  frontend:
+    image: ghcr.io/luismafe/urbanizacion-frontend:latest
+    container_name: frontend_portal
+    depends_on:
+      - service-billing
+    ports:
+      - "80:80"
+    restart: always
+
+volumes:
+  pgdata:
+

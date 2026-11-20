@@ -18,5 +18,30 @@ services:
       - "5672:5672"
       - "15672:15672"
 
+  service-billing:
+    build: ./backend/service-billing
+    container_name: service_billing_app
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/urbanizacion_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: secretpassword
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+    ports:
+      - "8081:8081"
+    restart: on-failure
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_portal
+    depends_on:
+      - service-billing
+    ports:
+      - "80:80"
+    restart: on-failure
+
 volumes:
   pgdata:

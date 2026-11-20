@@ -80,14 +80,14 @@ jobs:
 
       - name: Construir y publicar imagen Docker del Backend (service-billing)
         run: |
-          IMAGE_BACKEND=$(echo "${{ env.REGISTRY }}/${{ github.repository_owner }}/service-billing" | tr '[:upper:]' '[:lower:]')
+          IMAGE_BACKEND=$(echo "${{ env.REGISTRY }}/${{ github.repository_owner }}/urbanizacion-service-billing" | tr '[:upper:]' '[:lower:]')
           docker build -t $IMAGE_BACKEND:${{ github.sha }} -t $IMAGE_BACKEND:latest ./backend/service-billing
           docker push $IMAGE_BACKEND:${{ github.sha }}
           docker push $IMAGE_BACKEND:latest
 
       - name: Construir y publicar imagen Docker del Frontend (Angular + Nginx)
         run: |
-          IMAGE_FRONTEND=$(echo "${{ env.REGISTRY }}/${{ github.repository_owner }}/frontend" | tr '[:upper:]' '[:lower:]')
+          IMAGE_FRONTEND=$(echo "${{ env.REGISTRY }}/${{ github.repository_owner }}/urbanizacion-frontend" | tr '[:upper:]' '[:lower:]')
           docker build -t $IMAGE_FRONTEND:${{ github.sha }} -t $IMAGE_FRONTEND:latest ./frontend
           docker push $IMAGE_FRONTEND:${{ github.sha }}
           docker push $IMAGE_FRONTEND:latest
