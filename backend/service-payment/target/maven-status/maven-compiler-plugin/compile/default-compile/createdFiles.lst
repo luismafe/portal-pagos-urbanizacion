@@ -1,0 +1,7 @@
+com\enterprise\payment\PaymentApplication.class
+com\enterprise\payment\repository\PagoRepository.class
+com\enterprise\payment\service\PagoService.class
+com\enterprise\payment\controller\PagoController.class
+com\enterprise\payment\messaging\PagoConfirmadoEvent.class
+com\enterprise\payment\config\RabbitMQConfig.class
+com\enterprise\payment\model\Pago.class

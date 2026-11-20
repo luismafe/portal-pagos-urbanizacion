@@ -1,0 +1,79 @@
+name: CI/CD Pipeline - Urbanización Enterprise
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate-and-build-backend:
+    name: Validar y Compilar Backend (Spring Boot)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/service-billing
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Compilar y empaquetar microservicio (Maven)
+        run: mvn -B clean package -DskipTests
+
+  validate-and-build-frontend:
+    name: Validar y Compilar Frontend (Angular)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ./frontend/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Construir bundle de producción
+        run: npm run build -- --configuration production
+
+  docker-build-and-deploy:
+    name: Construir Imágenes Docker y Preparar Despliegue
+    needs: [validate-and-build-backend, validate-and-build-frontend]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Construir imagen Docker del Backend (service-billing)
+        run: docker build -t enterprise/service-billing:${{ github.sha }} -t enterprise/service-billing:latest ./backend/service-billing
+
+      - name: Construir imagen Docker del Frontend (Angular + Nginx)
+        run: docker build -t enterprise/frontend:${{ github.sha }} -t enterprise/frontend:latest ./frontend
+
+      - name: Preparar artefactos para despliegue
+        run: |
+          echo "Imágenes construidas exitosamente para el commit ${{ github.sha }}:"
+          docker images | grep enterprise
+          echo "Listo para despliegue en entorno de producción."
+

@@ -1,0 +1,12 @@
+{
+    "java.compile.nullAnalysis.mode": "disabled",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.project.sourcePaths": [
+        "backend/service-billing/src/main/java",
+        "backend/service-payment/src/main/java"
+    ],
+    "java.project.referencedLibraries": [
+        "backend/service-billing/target/dependency/*.jar"
+    ],
+    "maven.executable.path": "C:\\workspace\\apache-maven-3.9.14-bin\\apache-maven-3.9.14\\bin\\mvn.cmd"
+}

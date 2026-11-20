@@ -1,0 +1,108 @@
+<div class="portal-container">
+    <header class="portal-header">
+        <h1>Portal de Administración de Urbanización</h1>
+        <p>Consulta tu cuota de administración pendiente y realiza tu pago de forma rápida y segura.</p>
+    </header>
+
+    <section class="busqueda-card">
+        <label for="aptoInput">Apartamento / Unidad</label>
+        <div class="busqueda-row">
+            <input id="aptoInput" type="text" [(ngModel)]="apartamentoBusqueda" placeholder="Ej. Torre 3 - Apto 502" />
+            <button type="button" (click)="buscarFacturas()" [disabled]="cargando">
+                {{ cargando ? 'Buscando...' : 'Consultar Saldo' }}
+            </button>
+        </div>
+    </section>
+
+    <div *ngIf="errorMensaje" class="alerta alerta-error">{{ errorMensaje }}</div>
+    <div *ngIf="mensajeEstado" class="alerta alerta-exito">{{ mensajeEstado }}</div>
+
+    <section *ngIf="facturas.length > 0">
+        <h2 class="seccion-titulo">Facturas Pendientes</h2>
+        <div class="facturas-grid">
+            <article class="factura-card" *ngFor="let factura of facturas">
+                <div class="factura-top">
+                    <span class="badge">{{ factura.estado }}</span>
+                    <span class="numero">#{{ factura.numeroFactura }}</span>
+                </div>
+                <h3>{{ factura.propietario }}</h3>
+                <p class="apto">{{ factura.apartamento }}</p>
+                <p class="vencimiento">Vence: {{ factura.fechaVencimiento }}</p>
+                <div class="factura-footer">
+                    <strong class="valor">{{ factura.valor | currency:'COP':'symbol-narrow':'1.0-0' }}</strong>
+                    <button type="button" class="btn-pagar" (click)="abrirModalPago(factura)">Pagar Ahora</button>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="historial-section">
+        <div class="historial-header">
+            <h2 class="seccion-titulo">Historial de Facturas Pagadas</h2>
+            <span class="contador-badge">{{ facturasPagadas.length }} registrada(s)</span>
+        </div>
+
+        <p *ngIf="cargandoHistorial" class="texto-secundario">Cargando historial de pagos...</p>
+        <p *ngIf="!cargandoHistorial && facturasPagadas.length === 0" class="texto-secundario">
+            Aún no hay facturas pagadas registradas para este apartamento.
+        </p>
+
+        <div class="facturas-grid" *ngIf="facturasPagadas.length > 0">
+            <article class="factura-card factura-pagada-card" *ngFor="let pagada of facturasPagadas">
+                <div class="factura-top">
+                    <span class="badge badge-pagada">{{ pagada.estado }}</span>
+                    <span class="numero">#{{ pagada.numeroFactura }}</span>
+                </div>
+                <h3>{{ pagada.propietario }}</h3>
+                <p class="apto">{{ pagada.apartamento }}</p>
+                <p class="vencimiento">Vencimiento: {{ pagada.fechaVencimiento }}</p>
+                <div class="factura-footer">
+                    <strong class="valor">{{ pagada.valor | currency:'COP':'symbol-narrow':'1.0-0' }}</strong>
+                    <span class="estado-pagado-label">✓ Pagada</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Modal de confirmación de pago -->
+    <div class="modal-overlay" *ngIf="facturaSeleccionadaParaPago" (click)="cerrarModalPago()">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+            <h3>Confirmar Pago de Factura</h3>
+            <p class="modal-descripcion">
+                ¿Estás seguro de que deseas procesar el pago de la siguiente cuota de administración?
+            </p>
+
+            <div class="modal-resumen">
+                <div class="resumen-fila">
+                    <span>Factura:</span>
+                    <strong>#{{ facturaSeleccionadaParaPago.numeroFactura }}</strong>
+                </div>
+                <div class="resumen-fila">
+                    <span>Apartamento:</span>
+                    <strong>{{ facturaSeleccionadaParaPago.apartamento }}</strong>
+                </div>
+                <div class="resumen-fila">
+                    <span>Propietario:</span>
+                    <strong>{{ facturaSeleccionadaParaPago.propietario }}</strong>
+                </div>
+                <div class="resumen-fila">
+                    <span>Fecha vencimiento:</span>
+                    <strong>{{ facturaSeleccionadaParaPago.fechaVencimiento }}</strong>
+                </div>
+                <div class="resumen-fila resumen-total">
+                    <span>Total a pagar:</span>
+                    <strong>{{ facturaSeleccionadaParaPago.valor | currency:'COP':'symbol-narrow':'1.0-0' }}</strong>
+                </div>
+            </div>
+
+            <div class="modal-acciones">
+                <button type="button" class="btn-secundario" (click)="cerrarModalPago()" [disabled]="procesandoPago">
+                    Cancelar
+                </button>
+                <button type="button" class="btn-pagar" (click)="confirmarPago()" [disabled]="procesandoPago">
+                    {{ procesandoPago ? 'Procesando...' : 'Confirmar y Pagar' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

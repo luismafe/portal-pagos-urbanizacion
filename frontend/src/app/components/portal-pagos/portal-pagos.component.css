@@ -1,0 +1,392 @@
+.portal-container {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 0 1.25rem;
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #1e293b;
+}
+
+.portal-header {
+    margin-bottom: 1.75rem;
+}
+
+.portal-header h1 {
+    margin: 0 0 0.4rem;
+    font-size: 1.75rem;
+    color: #0f172a;
+}
+
+.portal-header p {
+    margin: 0;
+    color: #475569;
+}
+
+.busqueda-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    margin-bottom: 1.5rem;
+}
+
+.busqueda-card label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.busqueda-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.busqueda-row input {
+    flex: 1;
+    min-width: 220px;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+button {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.65rem 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.seccion-titulo {
+    font-size: 1.25rem;
+    color: #0f172a;
+    margin: 0 0 1rem;
+}
+
+.facturas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.factura-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.factura-pagada-card {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.factura-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge {
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+}
+
+.badge-pagada {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.numero {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.factura-card h3 {
+    margin: 0.25rem 0 0;
+    font-size: 1.1rem;
+}
+
+.apto,
+.vencimiento {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.factura-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.valor {
+    font-size: 1.15rem;
+    color: #0f172a;
+}
+
+.btn-pagar {
+    background: #059669;
+}
+
+.btn-pagar:hover:not(:disabled) {
+    background: #047857;
+}
+
+.btn-secundario {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.btn-secundario:hover:not(:disabled) {
+    background: #cbd5e1;
+}
+
+.alerta {
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.alerta-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.alerta-exito {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.historial-section {
+    margin-top: 2.25rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.historial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.historial-header .seccion-titulo {
+    margin: 0;
+}
+
+.contador-badge {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+}
+
+.texto-secundario {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+}
+
+.estado-pagado-label {
+    color: #15803d;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+.modal-card {
+    background: #ffffff;
+    border-radius: 14px;
+    max-width: 440px;
+    width: 100%;
+    padding: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.2);
+}
+
+.modal-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: #0f172a;
+}
+
+.modal-descripcion {
+    margin: 0 0 1.25rem;
+    color: #475569;
+    font-size: 0.95rem;
+}
+
+.modal-resumen {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.resumen-fila {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: #334155;
+}
+
+.resumen-total {
+    margin-top: 0.4rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid #cbd5e1;
+    font-size: 1.05rem;
+    color: #0f172a;
+}
+
+.modal-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+
+.historial-section {
+    margin-top: 2.25rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.historial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.historial-header .seccion-titulo {
+    margin: 0;
+}
+
+.contador-badge {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+}
+
+.texto-secundario {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+}
+
+.estado-pagado-label {
+    color: #15803d;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+.modal-card {
+    background: #ffffff;
+    border-radius: 14px;
+    max-width: 440px;
+    width: 100%;
+    padding: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.2);
+}
+
+.modal-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: #0f172a;
+}
+
+.modal-descripcion {
+    margin: 0 0 1.25rem;
+    color: #475569;
+    font-size: 0.95rem;
+}
+
+.modal-resumen {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.resumen-fila {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: #334155;
+}
+
+.resumen-total {
+    margin-top: 0.4rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid #cbd5e1;
+    font-size: 1.05rem;
+    color: #0f172a;
+}
+
+.modal-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
