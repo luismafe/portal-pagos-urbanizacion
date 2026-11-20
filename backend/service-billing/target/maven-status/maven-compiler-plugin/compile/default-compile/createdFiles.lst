@@ -1,5 +1,0 @@
-com\enterprise\billing\controller\FacturaController.class
-com\enterprise\billing\BillingApplication.class
-com\enterprise\billing\model\Factura.class
-com\enterprise\billing\service\FacturaService.class
-com\enterprise\billing\repository\FacturaRepository.class

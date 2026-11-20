@@ -1,8 +1,0 @@
-C:\Desarrollos\proyecto-enterprise\backend\service-payment\src\main\java\com\enterprise\payment\config\RabbitMQConfig.java
-C:\Desarrollos\proyecto-enterprise\backend\service-payment\src\main\java\com\enterprise\payment\controller\PagoController.java
-C:\Desarrollos\proyecto-enterprise\backend\service-payment\src\main\java\com\enterprise\payment\messaging\NotificacionPagoListener.java
-C:\Desarrollos\proyecto-enterprise\backend\service-payment\src\main\java\com\enterprise\payment\messaging\PagoConfirmadoEvent.java
-C:\Desarrollos\proyecto-enterprise\backend\service-payment\src\main\java\com\enterprise\payment\model\Pago.java
-C:\Desarrollos\proyecto-enterprise\backend\service-payment\src\main\java\com\enterprise\payment\PaymentApplication.java
-C:\Desarrollos\proyecto-enterprise\backend\service-payment\src\main\java\com\enterprise\payment\repository\PagoRepository.java
-C:\Desarrollos\proyecto-enterprise\backend\service-payment\src\main\java\com\enterprise\payment\service\PagoService.java
